@@ -24,7 +24,7 @@
             android:padding="16dp">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/input_amount"
+                    android:id="@+id/inputAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
@@ -33,7 +33,7 @@
                     android:hint="0"
                     android:background="#4D787878"
                     android:textColor="@color/white"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     android:textAlignment="center"
                     android:textColorHint="#7A8089">
                 </androidx.appcompat.widget.AppCompatEditText>
@@ -100,7 +100,7 @@
                 android:paddingHorizontal="50dp"
                 android:backgroundTint="#CCE91E1E"
                 android:text="-"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:backgroundTint="#CC03DAC5"
                 android:text="+"
-                android:textSize="30dp"/>
+                android:textSize="30sp"/>
         </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -124,5 +124,5 @@
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/white"
         android:text="BACK TO DASHBOARD"
-        android:textSize="14dp"/>
+        android:textSize="14sp"/>
 </LinearLayout>

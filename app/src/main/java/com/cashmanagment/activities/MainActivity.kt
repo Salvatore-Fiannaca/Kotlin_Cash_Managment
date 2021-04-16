@@ -6,13 +6,15 @@ import android.os.Bundle
 import android.view.View.*
 import com.cashmanagment.R
 import com.cashmanagment.database.DatabaseHandler
+import com.cashmanagment.databinding.ActivityMainBinding
 import com.cashmanagment.fragments.Dashboard
+import com.cashmanagment.fragments.History
 import com.cashmanagment.fragments.Settings
 import com.cashmanagment.models.ActionModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     private var items = ArrayList<ActionModel>()
     private var count: Double = 0.0
@@ -20,14 +22,16 @@ class MainActivity : AppCompatActivity() {
     // FRAGMENTS
     private val dashboard = Dashboard()
     private val settings = Settings()
+    private val history = History()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setupLayout()
 
-        val count = getCashAvailable()
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupLayout()
     }
     override fun onResume() {
         super.onResume()
@@ -40,17 +44,17 @@ class MainActivity : AppCompatActivity() {
         changeFragment("dashboard")
 
         // ADJUST NAVBAR
-        bottomNavigationView.background = null
-        bottomNavigationView.menu.getItem(1).isEnabled = false
-        bottomNavigationView.menu.getItem(2).setChecked(true)
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.menu.getItem(3).isEnabled = false
+        binding.bottomNavigationView.menu.getItem(1).setChecked(true)
 
         // EVENT CLICK HANDLER
-        fab.setOnClickListener{
+        binding.fab.setOnClickListener{
             changeFragment("add")
             val intent = Intent(this, AddActivity::class.java)
             startActivity(intent)
         }
-        bottomNavigationView.setOnNavigationItemSelectedListener {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.btnDashboard -> {
                     changeFragment("dashboard")
@@ -58,6 +62,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.btnSettings -> {
                     changeFragment("settings")
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.btnHistory -> {
+                    changeFragment("history")
                     return@setOnNavigationItemSelectedListener true
                 }
             }
@@ -76,18 +84,18 @@ class MainActivity : AppCompatActivity() {
                         .replace(R.id.fragment_container, settings)
                         .commit()
             }
+            "history" -> {
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, history)
+                        .commit()
+            }
         }
     }
 
-    // DB HELPER FUNCTIONS
+    // DATABASE HELPER
     private fun readAllFromLocalDB(): ArrayList<ActionModel>{
         val dbHandler = DatabaseHandler(this)
         return dbHandler.readAll()
     }
-    private fun getCashAvailable(): Double {
-        val dbHandler = DatabaseHandler(this)
-        return dbHandler.getCounter()
-    }
-
 
 }

@@ -2,26 +2,26 @@ package com.cashmanagment.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.core.view.iterator
-import com.cashmanagment.R
 import com.cashmanagment.database.DatabaseHandler
+import com.cashmanagment.databinding.ActivityAddBinding
 import com.cashmanagment.models.ActionModel
-import kotlinx.android.synthetic.main.activity_add.*
-import kotlinx.android.synthetic.main.activity_add.view.*
 
 class AddActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAddBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add)
 
-        btnBack.setOnClickListener{
+        binding = ActivityAddBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnBack.setOnClickListener{
             onBackPressed()
         }
-        btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener{
             if (checkInput()){
-                val amount = input_amount.text.toString().toDouble()
+                val amount = binding.inputAmount.text.toString().toDouble()
                 // TODO: TIMESTAMP
                 val values = ActionModel(
                     0,
@@ -33,9 +33,9 @@ class AddActivity : AppCompatActivity() {
                 submit(values)
             }
         }
-        btnSub.setOnClickListener{
+        binding.btnSub.setOnClickListener{
             if (checkInput()){
-                val amount = input_amount.text.toString().toDouble()
+                val amount = binding.inputAmount.text.toString().toDouble()
                 val values = ActionModel(
                     0,
                     1,
@@ -61,7 +61,7 @@ class AddActivity : AppCompatActivity() {
         finish()
     }
     private fun checkInput(): Boolean{
-        val amount = input_amount.text.toString()
+        val amount = binding.inputAmount.text.toString()
         if (amount != "" && amount.toDouble() > 0)
             return true
 

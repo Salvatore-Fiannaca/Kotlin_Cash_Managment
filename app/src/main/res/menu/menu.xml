@@ -5,9 +5,13 @@
         android:title="Settings"
         android:icon="@drawable/ic_settings"/>
 
-    <item android:title="" />
-
     <item android:id="@+id/btnDashboard"
         android:title="Dashboard"
         android:icon="@drawable/ic_dashboard" />
+
+    <item android:id="@+id/btnHistory"
+        android:title="History"
+        android:icon="@drawable/ic_history"/>
+
+    <item android:title="" />
 </menu>
