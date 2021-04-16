@@ -1,0 +1,105 @@
+package com.cashmanagment.fragments
+
+import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.cashmanagment.database.DatabaseHandler
+import com.cashmanagment.databinding.FragmentDashboardBinding
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlin.math.roundToInt
+
+
+class Dashboard : Fragment() {
+
+    private lateinit var binding: FragmentDashboardBinding
+    private var counter: Double = 0.0
+    private var pieChart: PieChart? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = FragmentDashboardBinding.inflate(layoutInflater)
+        pieChart = binding.pieChartView
+        refreshValues()
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshValues()
+    }
+
+    private fun getCashAvailable(): Double {
+        val dbHandler = DatabaseHandler(this.requireContext())
+        return dbHandler.getCounter()
+    }
+
+    private fun refreshValues(){
+        counter = getCashAvailable()
+        binding.dashCount.text = counter.toString()
+        showPieChart()
+    }
+
+    private fun showPieChart() {
+        val counter = getCashAvailable()
+        val pieEntries: ArrayList<PieEntry> = ArrayList()
+        val typeAmountMap: MutableMap<String, Double> = HashMap()
+        typeAmountMap["Necessità"] = counter / 100 * 55
+        typeAmountMap["Risparmio"] = counter / 100 * 10
+        typeAmountMap["Investimento"] = counter / 100 * 10
+        typeAmountMap["Formazione"] = counter / 100 * 10
+        typeAmountMap["Svago"] = counter / 100 * 10
+        typeAmountMap["Donazione"] = counter / 100 * 5
+
+        val colors: ArrayList<Int> = ArrayList()
+        colors.add(Color.parseColor("#304567"))
+        colors.add(Color.parseColor("#309967"))
+        colors.add(Color.parseColor("#476567"))
+        colors.add(Color.parseColor("#890567"))
+        colors.add(Color.parseColor("#a35567"))
+        colors.add(Color.parseColor("#ff5f67"))
+        colors.add(Color.parseColor("#3ca567"))
+
+        for (type in typeAmountMap.keys) {
+            pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
+        }
+
+        //collecting the entries with label name
+        val pieDataSet = PieDataSet(pieEntries, "type")
+        pieDataSet.valueTextSize = 14f
+        pieDataSet.valueTextColor = Color.WHITE
+        pieDataSet.colors = colors
+
+        //grouping the data set from entry to chart
+        val pieData = PieData(pieDataSet)
+        //showing the value of the entries, default true if not set
+        pieData.setDrawValues(true)
+
+        pieChart?.data = pieData
+        pieChart?.invalidate()
+
+        // OTHER SETTINGS
+        pieChart?.setUsePercentValues(false)
+        pieChart?.description?.isEnabled = false
+        pieChart?.legend?.isEnabled = false
+        pieChart?.isRotationEnabled = true
+        pieChart?.dragDecelerationFrictionCoef = 0.9f
+        pieChart?.rotationAngle = 0F
+        pieChart?.isHighlightPerTapEnabled = true
+        pieChart?.animateY(1200, Easing.EaseInOutQuad)
+        //setting the color of the hole in the middle, default white
+        pieChart?.setHoleColor(Color.parseColor("#000000"))
+    }
+}
