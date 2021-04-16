@@ -32,7 +32,7 @@ class Dashboard : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View {
         return binding.root
     }
 
@@ -48,7 +48,7 @@ class Dashboard : Fragment() {
 
     private fun refreshValues(){
         counter = getCashAvailable()
-        binding.dashCount.text = counter.toString()
+        binding.dashCount.text = "€ $counter"
         showPieChart()
     }
 
