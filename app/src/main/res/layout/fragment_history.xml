@@ -6,9 +6,9 @@
     android:id="@+id/fragment_history"
     tools:context=".fragments.History">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="History" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
