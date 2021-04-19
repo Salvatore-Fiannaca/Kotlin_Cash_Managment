@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.cashmanagment.adapter.RecyclerAdapter
 import com.cashmanagment.fragments.Dashboard
 import com.cashmanagment.models.ActionModel
 

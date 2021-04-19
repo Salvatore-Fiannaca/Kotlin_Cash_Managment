@@ -6,12 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cashmanagment.R
+import com.cashmanagment.models.ActionModel
 
-class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
-
-    private var amount = arrayOf("100", "20", "50")
-    private var tags = arrayOf("all", "all", "all")
-    private var types = arrayOf("+", "-", "+")
+class RecyclerAdapter(private val items: ArrayList<ActionModel>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
@@ -20,13 +17,13 @@ class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
     }
 
     override fun getItemCount(): Int {
-        return amount.size
+        return items.size
     }
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
-        holder.itemAmount.text = amount[position]
-        holder.itemType.text = types[position]
-        holder.itemTag.text = tags[position]
+        holder.itemAmount.text = items[position].amount.toString()
+        holder.itemType.text = items[position].type.toString()
+        holder.itemTag.text = items[position].tag
     }
 
     inner class  ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

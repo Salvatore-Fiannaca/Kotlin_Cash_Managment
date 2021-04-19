@@ -26,18 +26,10 @@ class History : Fragment() {
         binding = FragmentHistoryBinding.inflate(layoutInflater)
 
         val items = getActions()
-        for (i in items){
-            Log.e("item id:", i.id.toString())
-            Log.e("item tag", i.tag)
-            Log.e("item type", i.type.toString())
-            Log.e("item amount", i.amount.toString())
-
-        }
-
 
         layoutManager = LinearLayoutManager(this.requireContext())
         binding.recyclerView.layoutManager = layoutManager
-        adapter = RecyclerAdapter()
+        adapter = RecyclerAdapter(items)
         binding.recyclerView.adapter = adapter
 
     }
