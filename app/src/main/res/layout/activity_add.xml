@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
-                    android:paddingVertical="25dp"
+                    android:paddingVertical="16dp"
                     android:inputType="numberDecimal"
                     android:hint="0"
                     android:background="#4D787878"
@@ -96,9 +96,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:paddingVertical="10dp"
-                android:paddingHorizontal="50dp"
-                android:backgroundTint="#CCE91E1E"
                 android:text="-"
                 android:textSize="30sp"/>
             <Button
@@ -106,10 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:paddingHorizontal="50dp"
-                android:paddingVertical="10dp"
                 android:layout_marginHorizontal="10dp"
-                android:backgroundTint="#CC03DAC5"
                 android:text="+"
                 android:textSize="30sp"/>
         </LinearLayout>
@@ -123,6 +117,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/white"
-        android:text="BACK TO DASHBOARD"
+        android:text="Return to dashboard"
         android:textSize="14sp"/>
 </LinearLayout>

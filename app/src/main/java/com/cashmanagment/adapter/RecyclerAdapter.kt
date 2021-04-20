@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cashmanagment.R
-import com.cashmanagment.models.ActionModel
+import com.cashmanagment.models.HistoryModel
 
-class RecyclerAdapter(private val items: ArrayList<ActionModel>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
+class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.item_history, parent, false)
@@ -22,7 +22,7 @@ class RecyclerAdapter(private val items: ArrayList<ActionModel>) : RecyclerView.
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         holder.itemAmount.text = items[position].amount.toString()
-        holder.itemType.text = items[position].type.toString()
+        holder.itemType.text = items[position].type
         holder.itemTag.text = items[position].tag
     }
 

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import com.cashmanagment.database.DatabaseHandler
 import com.cashmanagment.databinding.ActivityAddBinding
-import com.cashmanagment.models.ActionModel
+import com.cashmanagment.models.HistoryModel
 
 class AddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
@@ -21,40 +21,31 @@ class AddActivity : AppCompatActivity() {
         }
         binding.btnAdd.setOnClickListener{
             if (checkInput()){
-                val amount = binding.inputAmount.text.toString().toDouble()
-                // TODO: TIMESTAMP
-                val values = ActionModel(
-                    0,
-                    0,
-                    "euro",
-                    "all",
-                    amount,
-                )
-                submit(values)
+                submit(true)
             }
         }
         binding.btnSub.setOnClickListener{
             if (checkInput()){
-                val amount = binding.inputAmount.text.toString().toDouble()
-                val values = ActionModel(
-                    0,
-                    1,
-                    "euro",
-                    "all",
-                    -amount
-                )
-                submit(values)
+                submit(false)
             }
         }
     }
 
-    private fun submit(actions: ActionModel){
-        val item = ActionModel(
-            actions.id,
-            actions.type,
-            actions.currency,
-            actions.tag,
-            actions.amount,
+    private fun submit(add: Boolean){
+        var amount = binding.inputAmount.text.toString().toDouble()
+        var type = "in"
+
+        if (!add){
+            amount = -amount
+            type = "out"
+        }
+
+        val item = HistoryModel(
+                0,
+                type,
+                "euro",
+                "all",
+                amount
         )
         val dbHandler = DatabaseHandler(this)
         dbHandler.insertData(item)

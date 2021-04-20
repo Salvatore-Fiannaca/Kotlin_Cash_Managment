@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.cashmanagment.R
 import com.cashmanagment.adapter.RecyclerAdapter
 import com.cashmanagment.database.DatabaseHandler
-import com.cashmanagment.databinding.FragmentDashboardBinding
 import com.cashmanagment.databinding.FragmentHistoryBinding
-import com.cashmanagment.models.ActionModel
+import com.cashmanagment.models.HistoryModel
 
 class History : Fragment() {
 
@@ -26,6 +24,19 @@ class History : Fragment() {
         binding = FragmentHistoryBinding.inflate(layoutInflater)
 
         val items = getActions()
+
+        var test1 = "3000.0"
+        var test2 = "13000.0"
+
+        var test3 = test1.substringBeforeLast(".")
+        var test4 = test2.substringBeforeLast(".")
+
+        if (test3.length >= 4){
+            test3 = test3.substring(1)
+        }
+
+        Log.e("after 1", test3)
+        Log.e("after 2", test4)
 
         layoutManager = LinearLayoutManager(this.requireContext())
         binding.recyclerView.layoutManager = layoutManager
@@ -40,7 +51,7 @@ class History : Fragment() {
         return binding.root
     }
 
-    private fun getActions(): ArrayList<ActionModel> {
+    private fun getActions(): ArrayList<HistoryModel> {
         val dbHandler = DatabaseHandler(this.requireContext())
         return dbHandler.readAll()
     }

@@ -1,8 +1,8 @@
 package com.cashmanagment.models
 
-data class ActionModel (
+data class HistoryModel (
     val id: Int,
-    val type: Int, // 0 in | 1 out
+    val type: String,
     val currency: String,
     val tag: String,
     val amount : Double

@@ -9,25 +9,18 @@ import com.cashmanagment.database.DatabaseHandler
 import com.cashmanagment.databinding.ActivityMainBinding
 import com.cashmanagment.fragments.Dashboard
 import com.cashmanagment.fragments.History
-import com.cashmanagment.fragments.Settings
-import com.cashmanagment.models.ActionModel
+import com.cashmanagment.models.HistoryModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var items = ArrayList<ActionModel>()
-    private var count: Double = 0.0
-
     // FRAGMENTS
     private val dashboard = Dashboard()
-    private val settings = Settings()
     private val history = History()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -45,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         // ADJUST NAVBAR
         binding.bottomNavigationView.background = null
-        binding.bottomNavigationView.menu.getItem(3).isEnabled = false
+        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
         binding.bottomNavigationView.menu.getItem(1).setChecked(true)
 
         // EVENT CLICK HANDLER
@@ -58,10 +51,6 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.btnDashboard -> {
                     changeFragment("dashboard")
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.btnSettings -> {
-                    changeFragment("settings")
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.btnHistory -> {
@@ -79,11 +68,6 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, dashboard).commit()
             }
-            "settings" -> {
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, settings)
-                        .commit()
-            }
             "history" -> {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, history)
@@ -93,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // DATABASE HELPER
-    private fun readAllFromLocalDB(): ArrayList<ActionModel>{
+    private fun readAllFromLocalDB(): ArrayList<HistoryModel>{
         val dbHandler = DatabaseHandler(this)
         return dbHandler.readAll()
     }

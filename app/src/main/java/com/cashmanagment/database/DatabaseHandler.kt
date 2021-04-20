@@ -7,9 +7,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.cashmanagment.adapter.RecyclerAdapter
-import com.cashmanagment.fragments.Dashboard
-import com.cashmanagment.models.ActionModel
+import com.cashmanagment.models.HistoryModel
 
 class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -71,7 +69,7 @@ class DatabaseHandler(context: Context) :
             } else {
                 // UPDATE
                 cv.put(KEY_COUNT, currentValue + newValue)
-                db.update(TABLE_COUNT, cv, "count = $currentValue", null );
+                db.update(TABLE_COUNT, cv, "count = $currentValue", null )
                 db.close()
             }
         }catch (e: SQLiteException){
@@ -79,34 +77,34 @@ class DatabaseHandler(context: Context) :
         }
     }
 
-    fun insertData(action: ActionModel) {
+    fun insertData(history: HistoryModel) {
         val db = this.writableDatabase
         val cv = ContentValues().apply {
-            put(KEY_TYPE, action.type)
-            put(KEY_CURRENCY, action.currency)
-            put(KEY_TAG, action.tag)
-            put(KEY_AMOUNT, action.amount)
+            put(KEY_TYPE, history.type)
+            put(KEY_CURRENCY, history.currency)
+            put(KEY_TAG, history.tag)
+            put(KEY_AMOUNT, history.amount)
         }
         try {
             db.insert(TABLE_ACTIONS, null, cv)
             db.close()
-            updateCounter(action.amount)
+            updateCounter(history.amount)
         } catch (e: SQLiteException){
             Log.e("insertData", e.stackTraceToString())
         }
     }
 
-    fun updateData(action: ActionModel){
+    fun updateData(history: HistoryModel){
         val db = this.writableDatabase
         val cv = ContentValues().apply {
-            put(KEY_ID, action.id)
-            put(KEY_TYPE, action.type)
-            put(KEY_CURRENCY, action.currency)
-            put(KEY_TAG, action.tag)
-            put(KEY_AMOUNT, action.amount)
+            put(KEY_ID, history.id)
+            put(KEY_TYPE, history.type)
+            put(KEY_CURRENCY, history.currency)
+            put(KEY_TAG, history.tag)
+            put(KEY_AMOUNT, history.amount)
         }
         try {
-            db.update(TABLE_ACTIONS, cv, "_id = ?", arrayOf(action.id.toString()))
+            db.update(TABLE_ACTIONS, cv, "_id = ?", arrayOf(history.id.toString()))
         }catch (e: SQLiteException){
             Log.e("updateData", e.stackTraceToString())
         }
@@ -124,16 +122,16 @@ class DatabaseHandler(context: Context) :
 
     fun getCounter(): Double {
         val db = this.writableDatabase
-        var n: Double = 0.0
-        val queryCounter: String = "SELECT count(*) FROM $TABLE_COUNT"
-        val queryTable: String = "SELECT * FROM $TABLE_COUNT"
+        var n = 0.0
+        val queryCounter = "SELECT count(*) FROM $TABLE_COUNT"
+        val queryTable = "SELECT * FROM $TABLE_COUNT"
         try {
-            val cursor : Cursor = db.rawQuery(queryCounter, null);
+            val cursor : Cursor = db.rawQuery(queryCounter, null)
             cursor.moveToFirst();
             val tableRow = cursor.getInt(0)
 
             if (tableRow > 0) {
-                val newCursor : Cursor = db.rawQuery(queryTable, null);
+                val newCursor : Cursor = db.rawQuery(queryTable, null)
                 newCursor.moveToFirst()
                 n = newCursor.getDouble(0)
             }
@@ -144,8 +142,8 @@ class DatabaseHandler(context: Context) :
         return n
     }
 
-    fun readAll():ArrayList<ActionModel> {
-        val cashItemList = ArrayList<ActionModel>()
+    fun readAll():ArrayList<HistoryModel> {
+        val cashItemList = ArrayList<HistoryModel>()
         val query = "SELECT * FROM $TABLE_ACTIONS"
         val db = this.readableDatabase
 
@@ -153,9 +151,9 @@ class DatabaseHandler(context: Context) :
             val cursor : Cursor = db.rawQuery(query, null)
             if(cursor.moveToFirst()){
                 do {
-                    val item = ActionModel(
+                    val item = HistoryModel(
                             cursor.getInt(cursor.getColumnIndex(KEY_ID)),
-                            cursor.getInt(cursor.getColumnIndex(KEY_TYPE)),
+                            cursor.getString(cursor.getColumnIndex(KEY_TYPE)),
                             cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
                             cursor.getString(cursor.getColumnIndex(KEY_TAG)),
                             cursor.getDouble(cursor.getColumnIndex(KEY_AMOUNT)),
