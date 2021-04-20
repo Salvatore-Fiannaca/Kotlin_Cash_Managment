@@ -81,6 +81,13 @@
                     android:text="Svago"
                     android:checked="false"
                     android:checkable="true"/>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Donazione"
+                    android:checked="false"
+                    android:checkable="true"/>
 
             </com.google.android.material.chip.ChipGroup>
 
