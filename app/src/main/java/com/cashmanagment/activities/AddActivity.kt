@@ -34,10 +34,10 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun submit(add: Boolean){
+        var description = binding.inputDescription.text.toString()
         var amount = binding.inputAmount.text.toString().toDouble()
         val tag = getChipChecked()
         var type = "in"
-        var currency = "euro"
 
         if (!add){
             amount = -amount
@@ -47,7 +47,7 @@ class AddActivity : AppCompatActivity() {
         val item = HistoryModel(
                 0,
                 type,
-                currency,
+                description,
                 tag,
                 amount
         )
@@ -55,7 +55,7 @@ class AddActivity : AppCompatActivity() {
         dbHandler.insertData(item)
         finish()
     }
-    private fun checkInput(): Boolean{
+    private fun checkInput(): Boolean {
         val amount = binding.inputAmount.text.toString()
         if (amount != "" && amount.toDouble() > 0)
             return true

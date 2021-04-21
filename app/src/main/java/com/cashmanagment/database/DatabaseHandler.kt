@@ -21,7 +21,7 @@ class DatabaseHandler(context: Context) :
         // COLUMNS TABLE_CASH
         private const val KEY_ID = "_id"
         private const val KEY_TYPE = "type"
-        private const val KEY_CURRENCY = "currency"
+        private const val KEY_DESCRIPTION = "description"
         private const val KEY_TAG = "tag"
         private const val KEY_AMOUNT = "amount"
 
@@ -35,7 +35,7 @@ class DatabaseHandler(context: Context) :
                 "CREATE TABLE $TABLE_ACTIONS (" +
                 "$KEY_ID INTEGER PRIMARY KEY," +
                 "$KEY_TYPE INTEGER," +
-                "$KEY_CURRENCY TEXT," +
+                "$KEY_DESCRIPTION TEXT," +
                 "$KEY_TAG TEXT," +
                 "$KEY_AMOUNT NUMERIC)")
         val query_create_counter_table = (
@@ -61,7 +61,6 @@ class DatabaseHandler(context: Context) :
 
         try {
            if (actions <  2) {
-               Log.e("first","diocane")
                 // FIRST TIME
                 cv.put(KEY_COUNT, newValue)
                 db.insert(TABLE_COUNT, null, cv)
@@ -81,7 +80,7 @@ class DatabaseHandler(context: Context) :
         val db = this.writableDatabase
         val cv = ContentValues().apply {
             put(KEY_TYPE, history.type)
-            put(KEY_CURRENCY, history.currency)
+            put(KEY_DESCRIPTION, history.description)
             put(KEY_TAG, history.tag)
             put(KEY_AMOUNT, history.amount)
         }
@@ -99,7 +98,7 @@ class DatabaseHandler(context: Context) :
         val cv = ContentValues().apply {
             put(KEY_ID, history.id)
             put(KEY_TYPE, history.type)
-            put(KEY_CURRENCY, history.currency)
+            put(KEY_DESCRIPTION, history.description)
             put(KEY_TAG, history.tag)
             put(KEY_AMOUNT, history.amount)
         }
@@ -154,7 +153,7 @@ class DatabaseHandler(context: Context) :
                     val item = HistoryModel(
                             cursor.getInt(cursor.getColumnIndex(KEY_ID)),
                             cursor.getString(cursor.getColumnIndex(KEY_TYPE)),
-                            cursor.getString(cursor.getColumnIndex(KEY_CURRENCY)),
+                            cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
                             cursor.getString(cursor.getColumnIndex(KEY_TAG)),
                             cursor.getDouble(cursor.getColumnIndex(KEY_AMOUNT)),
                     )

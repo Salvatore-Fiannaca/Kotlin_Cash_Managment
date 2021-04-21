@@ -23,6 +23,7 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         holder.itemAmount.text = items[position].amount.toString()
         holder.itemType.text = items[position].type
+        holder.itemDescription.text = items[position].description
         holder.itemTag.text = items[position].tag
     }
 
@@ -30,6 +31,7 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
         var itemAmount: TextView = itemView.findViewById(R.id.item_amount)
         var itemTag: TextView = itemView.findViewById(R.id.item_tag)
         var itemType: TextView = itemView.findViewById(R.id.item_type)
+        var itemDescription: TextView = itemView.findViewById(R.id.item_description)
 
     }
 
