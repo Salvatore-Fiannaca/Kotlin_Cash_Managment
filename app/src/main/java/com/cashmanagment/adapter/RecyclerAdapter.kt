@@ -25,6 +25,7 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
         holder.itemType.text = items[position].type
         holder.itemDescription.text = items[position].description
         holder.itemTag.text = items[position].tag
+
     }
 
     inner class  ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

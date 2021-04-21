@@ -36,12 +36,13 @@ class AddActivity : AppCompatActivity() {
     private fun submit(add: Boolean){
         var description = binding.inputDescription.text.toString()
         var amount = binding.inputAmount.text.toString().toDouble()
-        val tag = getChipChecked()
+        var tag = ""
         var type = "in"
 
         if (!add){
             amount = -amount
             type = "out"
+            tag = getChipChecked()
         }
 
         val item = HistoryModel(
