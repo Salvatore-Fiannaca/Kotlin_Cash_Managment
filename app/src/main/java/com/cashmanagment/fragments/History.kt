@@ -25,19 +25,6 @@ class History : Fragment() {
 
         val items = getActions()
 
-        var test1 = "3000.0"
-        var test2 = "13000.0"
-
-        var test3 = test1.substringBeforeLast(".")
-        var test4 = test2.substringBeforeLast(".")
-
-        if (test3.length >= 4){
-            test3 = test3.substring(1)
-        }
-
-        Log.e("after 1", test3)
-        Log.e("after 2", test4)
-
         layoutManager = LinearLayoutManager(this.requireContext())
         binding.recyclerView.layoutManager = layoutManager
         adapter = RecyclerAdapter(items)

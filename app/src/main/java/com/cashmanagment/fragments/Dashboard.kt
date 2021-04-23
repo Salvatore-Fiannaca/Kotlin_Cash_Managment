@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.cashmanagment.database.DatabaseHandler
 import com.cashmanagment.databinding.FragmentDashboardBinding
+import com.cashmanagment.utils.Utils
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -20,6 +21,7 @@ class Dashboard : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private var counter: Double = 0.0
     private var pieChart: PieChart? = null
+    private val utils = Utils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +47,9 @@ class Dashboard : Fragment() {
 
     private fun refreshValues(){
         counter = getCashAvailable()
-        binding.dashCount.text = "€ $counter"
+
+        val cleanedCounter = utils.cleanDoubleToString(counter)
+        binding.dashCount.text = "€ $cleanedCounter"
         showPieChart()
     }
 
