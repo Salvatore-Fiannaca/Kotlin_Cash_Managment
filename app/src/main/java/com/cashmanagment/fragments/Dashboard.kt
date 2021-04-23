@@ -61,13 +61,12 @@ class Dashboard : Fragment() {
         typeAmountMap["Donazione"] = counter / 100 * 5
 
         val colors: ArrayList<Int> = ArrayList()
-        colors.add(Color.parseColor("#304567"))
-        colors.add(Color.parseColor("#309967"))
-        colors.add(Color.parseColor("#476567"))
-        colors.add(Color.parseColor("#890567"))
-        colors.add(Color.parseColor("#a35567"))
-        colors.add(Color.parseColor("#ff5f67"))
-        colors.add(Color.parseColor("#3ca567"))
+        colors.add(Color.parseColor("#4A545D")) //Risparmio
+        colors.add(Color.parseColor("#d8b00f")) //Investimento
+        colors.add(Color.parseColor("#68ba43")) //Necessità
+        colors.add(Color.parseColor("#652b9b")) //Donazione
+        colors.add(Color.parseColor("#134ba0")) //Formazione
+        colors.add(Color.parseColor("#ff4444")) //Svago
 
         for (type in typeAmountMap.keys) {
             pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
@@ -96,7 +95,6 @@ class Dashboard : Fragment() {
         pieChart?.rotationAngle = 0F
         pieChart?.isHighlightPerTapEnabled = true
         pieChart?.animateY(1200, Easing.EaseInOutQuad)
-        //setting the color of the hole in the middle, default white
         pieChart?.setHoleColor(Color.parseColor("#000000"))
     }
 }
