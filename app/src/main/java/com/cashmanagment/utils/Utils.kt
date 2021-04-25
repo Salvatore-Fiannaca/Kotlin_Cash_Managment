@@ -1,21 +1,15 @@
 package com.cashmanagment.utils
 
-import android.util.Log
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
-
 class Utils {
 
-    fun cleanDoubleToString(counter: Double): String {
-        var txt = "${counter.toFloat()}"
-        var beforeDot = txt.substringBeforeLast(".")
-        val afterDot = txt.substringAfterLast(".")
+    fun cleanIntToString(counter: Int): String {
+        var str = "$counter"
 
-        if (beforeDot.length >3){
-            var reverseString = beforeDot.reversed()
+        if (str.length >3){
+            var reverseString = str.reversed()
             var arrString = ArrayList<String>();
-            var i = 1
 
+            var i = 1
             for (c in reverseString) {
                 arrString.add(c.toString())
 
@@ -28,17 +22,10 @@ class Utils {
                 i++
             }
 
-            val fixedString = arrString.reversed().joinToString("")
-            beforeDot = fixedString
+            str = arrString.reversed().joinToString("")
         }
 
-        if (afterDot.toDouble() > 0) {
-            txt = "$beforeDot.$afterDot"
-        } else {
-            txt = beforeDot
-        }
-
-        return txt
+        return str
     }
 
 }

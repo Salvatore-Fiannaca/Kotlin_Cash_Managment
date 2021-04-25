@@ -19,7 +19,7 @@ import com.github.mikephil.charting.data.PieEntry
 class Dashboard : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
-    private var counter: Double = 0.0
+    private var counter: Int = 0
     private var pieChart: PieChart? = null
     private val utils = Utils()
 
@@ -40,7 +40,7 @@ class Dashboard : Fragment() {
         refreshValues()
     }
 
-    private fun getCashAvailable(): Double {
+    private fun getCashAvailable(): Int {
         val dbHandler = DatabaseHandler(this.requireContext())
         return dbHandler.getCounter()
     }
@@ -48,15 +48,15 @@ class Dashboard : Fragment() {
     private fun refreshValues(){
         counter = getCashAvailable()
 
-        val cleanedCounter = utils.cleanDoubleToString(counter)
-        binding.dashCount.text = "€ $cleanedCounter"
+        var cleaned= utils.cleanIntToString(counter)
+        binding.dashCount.text = "€ $cleaned"
         showPieChart()
     }
 
     private fun showPieChart() {
         val counter = getCashAvailable()
         val pieEntries: ArrayList<PieEntry> = ArrayList()
-        val typeAmountMap: MutableMap<String, Double> = HashMap()
+        val typeAmountMap: MutableMap<String, Int> = HashMap()
         typeAmountMap["Necessità"] = counter / 100 * 55
         typeAmountMap["Risparmio"] = counter / 100 * 10
         typeAmountMap["Investimento"] = counter / 100 * 10
@@ -64,7 +64,7 @@ class Dashboard : Fragment() {
         typeAmountMap["Svago"] = counter / 100 * 10
         typeAmountMap["Donazione"] = counter / 100 * 5
 
-        val colors: ArrayList<Int> = ArrayList()
+        val colors = ArrayList<Int>()
         colors.add(Color.parseColor("#4A545D")) //Risparmio
         colors.add(Color.parseColor("#d8b00f")) //Investimento
         colors.add(Color.parseColor("#68ba43")) //Necessità

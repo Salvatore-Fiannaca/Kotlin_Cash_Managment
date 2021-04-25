@@ -35,7 +35,7 @@ class AddActivity : AppCompatActivity() {
 
     private fun submit(add: Boolean){
         var description = binding.inputDescription.text.toString()
-        var amount = binding.inputAmount.text.toString().toDouble()
+        var amount = binding.inputAmount.text.toString().toInt()
         var tag = ""
         var type = "in"
 

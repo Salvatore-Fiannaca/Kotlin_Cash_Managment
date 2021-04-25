@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:paddingVertical="14dp"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:hint="0"
                     android:background="#4D787878"
                     android:textColor="@color/white"

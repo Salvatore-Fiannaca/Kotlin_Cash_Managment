@@ -5,5 +5,5 @@ data class HistoryModel (
     val type: String,
     val description: String,
     val tag: String,
-    val amount : Double
+    val amount : Int
 )

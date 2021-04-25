@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.cashmanagment.models.HistoryModel
+import kotlin.math.round
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -37,7 +40,7 @@ class DatabaseHandler(context: Context) :
                 "$KEY_TYPE INTEGER," +
                 "$KEY_DESCRIPTION TEXT," +
                 "$KEY_TAG TEXT," +
-                "$KEY_AMOUNT NUMERIC)")
+                "$KEY_AMOUNT INTEGER)")
         val query_create_counter_table = (
                 "CREATE TABLE $TABLE_COUNT (" +
                 "$KEY_COUNT NUMERIC)")
@@ -52,11 +55,11 @@ class DatabaseHandler(context: Context) :
         onCreate(db)
     }
 
-    private fun updateCounter(newValue: Double) {
+    private fun updateCounter(newValue: Int) {
         val db = this.writableDatabase
         val cv = ContentValues()
 
-        val currentValue:Double = getCounter()
+        val currentValue: Int = getCounter()
         val actions = readAll().size
 
         try {
@@ -67,7 +70,7 @@ class DatabaseHandler(context: Context) :
                 db.close()
             } else {
                 // UPDATE
-                cv.put(KEY_COUNT, currentValue + newValue)
+                cv.put(KEY_COUNT, currentValue + newValue )
                 db.update(TABLE_COUNT, cv, "count = $currentValue", null )
                 db.close()
             }
@@ -119,9 +122,9 @@ class DatabaseHandler(context: Context) :
         }
     }
 
-    fun getCounter(): Double {
+    fun getCounter(): Int {
         val db = this.writableDatabase
-        var n = 0.0
+        var n = 0
         val queryCounter = "SELECT count(*) FROM $TABLE_COUNT"
         val queryTable = "SELECT * FROM $TABLE_COUNT"
         try {
@@ -132,7 +135,7 @@ class DatabaseHandler(context: Context) :
             if (tableRow > 0) {
                 val newCursor : Cursor = db.rawQuery(queryTable, null)
                 newCursor.moveToFirst()
-                n = newCursor.getDouble(0)
+                n = newCursor.getInt(0)
             }
         }catch (e: SQLiteException){
             Log.e("readCounter", e.stackTraceToString())
@@ -155,7 +158,7 @@ class DatabaseHandler(context: Context) :
                             cursor.getString(cursor.getColumnIndex(KEY_TYPE)),
                             cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
                             cursor.getString(cursor.getColumnIndex(KEY_TAG)),
-                            cursor.getDouble(cursor.getColumnIndex(KEY_AMOUNT)),
+                            cursor.getInt(cursor.getColumnIndex(KEY_AMOUNT)),
                     )
                     cashItemList.add(item)
 
