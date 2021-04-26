@@ -23,13 +23,12 @@ class History : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentHistoryBinding.inflate(layoutInflater)
 
-        val items = getActions()
+        refreshValues()
+    }
 
-        layoutManager = LinearLayoutManager(this.requireContext())
-        binding.recyclerView.layoutManager = layoutManager
-        adapter = RecyclerAdapter(items)
-        binding.recyclerView.adapter = adapter
-
+    override fun onResume() {
+        super.onResume()
+        refreshValues()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +40,15 @@ class History : Fragment() {
     private fun getActions(): ArrayList<HistoryModel> {
         val dbHandler = DatabaseHandler(this.requireContext())
         return dbHandler.readAll()
+    }
+
+    private fun refreshValues(){
+        val items = getActions()
+
+        layoutManager = LinearLayoutManager(this.requireContext())
+        binding.recyclerView.layoutManager = layoutManager
+        adapter = RecyclerAdapter(items)
+        binding.recyclerView.adapter = adapter
     }
 
 }
