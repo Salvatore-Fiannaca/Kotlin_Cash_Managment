@@ -47,22 +47,28 @@ class Dashboard : Fragment() {
 
     private fun refreshValues(){
         counter = getCashAvailable()
-
         var cleaned= utils.cleanIntToString(counter)
         binding.dashCount.text = "€ $cleaned"
         showPieChart()
     }
 
     private fun showPieChart() {
-        val counter = getCashAvailable()
+        if (counter > 0) {
+            pieChart?.visibility = View.VISIBLE
+        } else {
+            pieChart?.visibility = View.GONE
+            return
+        }
+
         val pieEntries: ArrayList<PieEntry> = ArrayList()
-        val typeAmountMap: MutableMap<String, Int> = HashMap()
-        typeAmountMap["Necessità"] = counter / 100 * 55
-        typeAmountMap["Risparmio"] = counter / 100 * 10
-        typeAmountMap["Investimento"] = counter / 100 * 10
-        typeAmountMap["Formazione"] = counter / 100 * 10
-        typeAmountMap["Svago"] = counter / 100 * 10
-        typeAmountMap["Donazione"] = counter / 100 * 5
+        val typeAmountMap: MutableMap<String, Double> = HashMap()
+
+        typeAmountMap["Necessità"] = counter.toDouble() / 100 * 55
+        typeAmountMap["Risparmio"] = counter.toDouble() / 100 * 10
+        typeAmountMap["Investimento"] = counter.toDouble() / 100 * 10
+        typeAmountMap["Formazione"] = counter.toDouble() / 100 * 10
+        typeAmountMap["Svago"] = counter.toDouble() / 100 * 10
+        typeAmountMap["Donazione"] = counter.toDouble() / 100 * 5
 
         val colors = ArrayList<Int>()
         colors.add(Color.parseColor("#4A545D")) //Risparmio
