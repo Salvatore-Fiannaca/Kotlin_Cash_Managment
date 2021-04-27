@@ -1,6 +1,7 @@
 package com.cashmanagment.fragments
 
 import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -59,7 +60,6 @@ class Dashboard : Fragment() {
             pieChart?.visibility = View.VISIBLE
         } else {
             pieChart?.visibility = View.GONE
-            return
         }
 
         val pieEntries: ArrayList<PieEntry> = ArrayList()
@@ -68,17 +68,16 @@ class Dashboard : Fragment() {
         val typeAmountMapTips: MutableMap<String, Int> = HashMap()
 
         typeAmountMap["Necessità"] = counter.toDouble() / 100 * 55
-        typeAmountMap["Risparmio"] = counter.toDouble() / 100 * 10
-        typeAmountMap["Investimento"] = counter.toDouble() / 100 * 10
-        typeAmountMap["Formazione"] = counter.toDouble() / 100 * 10
-        typeAmountMap["Svago"] = counter.toDouble() / 100 * 10
-        typeAmountMap["Donazione"] = counter.toDouble() / 100 * 5
-
         typeAmountMapTips["Necessità"] = 55
+        typeAmountMap["Risparmio"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Risparmio"] = 10
+        typeAmountMap["Investimento"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Investimento"] = 10
+        typeAmountMap["Formazione"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Formazione"] = 10
+        typeAmountMap["Svago"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Svago"] = 10
+        typeAmountMap["Donazione"] = counter.toDouble() / 100 * 5
         typeAmountMapTips["Donazione"] = 5
 
         val colors = ArrayList<Int>()
@@ -91,17 +90,23 @@ class Dashboard : Fragment() {
 
         for (type in typeAmountMap.keys) {
             pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
-            pieEntriesTips.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
+            pieEntriesTips.add(PieEntry(typeAmountMapTips[type]!!.toFloat(), type))
         }
 
         val pieDataSet = PieDataSet(pieEntries, "type")
-        pieDataSet.valueTextSize = 14f
+        val pieDataSetTips = PieDataSet(pieEntriesTips, "type")
+        pieDataSet.valueTextSize = 15f
+        pieDataSetTips.valueTextSize = 15f
         pieDataSet.valueTextColor = Color.WHITE
+        pieDataSetTips.valueTextColor = Color.WHITE
         pieDataSet.colors = colors
+        pieDataSetTips.colors = colors
 
         val pieData = PieData(pieDataSet)
+        val pieDataTips = PieData(pieDataSetTips)
+        pieDataTips.setDrawValues(false)
         pieChart?.data = pieData
-        pieChartTips?.data = pieData
+        pieChartTips?.data = pieDataTips
         pieChart?.invalidate()
         pieChartTips?.invalidate()
 
@@ -124,5 +129,13 @@ class Dashboard : Fragment() {
         pieChartTips?.animateY(1200, Easing.EaseInOutQuad)
         pieChart?.setHoleColor(Color.parseColor("#000000"))
         pieChartTips?.setHoleColor(Color.parseColor("#000000"))
+
+        pieChart?.centerText = "Current Partition"
+        pieChartTips?.centerText = "Recommended Partition"
+        pieChart?.setCenterTextSize(17f)
+        pieChartTips?.setCenterTextSize(17f)
+        pieChart?.setCenterTextColor(Color.WHITE)
+        pieChartTips?.setCenterTextColor(Color.WHITE)
+
     }
 }
