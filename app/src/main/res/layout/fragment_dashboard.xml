@@ -37,6 +37,11 @@
                     android:layout_height="350dp"
                     android:id="@+id/pieChartView">
             </com.github.mikephil.charting.charts.PieChart>
+                <com.github.mikephil.charting.charts.PieChart
+                    android:layout_width="350dp"
+                    android:layout_height="350dp"
+                    android:id="@+id/pieChartViewTips">
+            </com.github.mikephil.charting.charts.PieChart>
             </LinearLayout>
         </HorizontalScrollView>
 

@@ -21,12 +21,14 @@ class Dashboard : Fragment() {
     private lateinit var binding: FragmentDashboardBinding
     private var counter: Int = 0
     private var pieChart: PieChart? = null
+    private var pieChartTips: PieChart? = null
     private val utils = Utils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentDashboardBinding.inflate(layoutInflater)
         pieChart = binding.pieChartView
+        pieChartTips = binding.pieChartViewTips
         refreshValues()
     }
 
@@ -49,10 +51,10 @@ class Dashboard : Fragment() {
         counter = getCashAvailable()
         var cleaned= utils.cleanIntToString(counter)
         binding.dashCount.text = "€ $cleaned"
-        showPieChart()
+        setupCharts()
     }
 
-    private fun showPieChart() {
+    private fun setupCharts() {
         if (counter > 0) {
             pieChart?.visibility = View.VISIBLE
         } else {
@@ -61,7 +63,9 @@ class Dashboard : Fragment() {
         }
 
         val pieEntries: ArrayList<PieEntry> = ArrayList()
+        val pieEntriesTips: ArrayList<PieEntry> = ArrayList()
         val typeAmountMap: MutableMap<String, Double> = HashMap()
+        val typeAmountMapTips: MutableMap<String, Int> = HashMap()
 
         typeAmountMap["Necessità"] = counter.toDouble() / 100 * 55
         typeAmountMap["Risparmio"] = counter.toDouble() / 100 * 10
@@ -69,6 +73,13 @@ class Dashboard : Fragment() {
         typeAmountMap["Formazione"] = counter.toDouble() / 100 * 10
         typeAmountMap["Svago"] = counter.toDouble() / 100 * 10
         typeAmountMap["Donazione"] = counter.toDouble() / 100 * 5
+
+        typeAmountMapTips["Necessità"] = 55
+        typeAmountMapTips["Risparmio"] = 10
+        typeAmountMapTips["Investimento"] = 10
+        typeAmountMapTips["Formazione"] = 10
+        typeAmountMapTips["Svago"] = 10
+        typeAmountMapTips["Donazione"] = 5
 
         val colors = ArrayList<Int>()
         colors.add(Color.parseColor("#4A545D")) //Risparmio
@@ -80,31 +91,38 @@ class Dashboard : Fragment() {
 
         for (type in typeAmountMap.keys) {
             pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
+            pieEntriesTips.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
         }
 
-        //collecting the entries with label name
         val pieDataSet = PieDataSet(pieEntries, "type")
         pieDataSet.valueTextSize = 14f
         pieDataSet.valueTextColor = Color.WHITE
         pieDataSet.colors = colors
 
-        //grouping the data set from entry to chart
         val pieData = PieData(pieDataSet)
-        //showing the value of the entries, default true if not set
-        pieData.setDrawValues(true)
-
         pieChart?.data = pieData
+        pieChartTips?.data = pieData
         pieChart?.invalidate()
+        pieChartTips?.invalidate()
 
         // OTHER SETTINGS
         pieChart?.setUsePercentValues(false)
+        pieChartTips?.setUsePercentValues(true)
         pieChart?.description?.isEnabled = false
+        pieChartTips?.description?.isEnabled = false
         pieChart?.legend?.isEnabled = false
+        pieChartTips?.legend?.isEnabled = false
         pieChart?.isRotationEnabled = true
+        pieChartTips?.isRotationEnabled = true
         pieChart?.dragDecelerationFrictionCoef = 0.9f
+        pieChartTips?.dragDecelerationFrictionCoef = 0.9f
         pieChart?.rotationAngle = 0F
+        pieChartTips?.rotationAngle = 0F
         pieChart?.isHighlightPerTapEnabled = true
+        pieChartTips?.isHighlightPerTapEnabled = true
         pieChart?.animateY(1200, Easing.EaseInOutQuad)
+        pieChartTips?.animateY(1200, Easing.EaseInOutQuad)
         pieChart?.setHoleColor(Color.parseColor("#000000"))
+        pieChartTips?.setHoleColor(Color.parseColor("#000000"))
     }
 }
