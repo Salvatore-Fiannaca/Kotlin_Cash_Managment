@@ -1,5 +1,6 @@
 package com.cashmanagment.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,18 +22,23 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
+        val currentType = items[position].type
+        when (currentType){
+            "in"-> holder.itemType.setTextColor(Color.GREEN)
+            "out"-> holder.itemType.setTextColor(Color.RED)
+        }
+
+        holder.itemType.text = currentType
         holder.itemAmount.text = items[position].amount.toString()
-        holder.itemType.text = items[position].type
         holder.itemDescription.text = items[position].description
         holder.itemTag.text = items[position].tag
-
     }
 
     inner class  ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        var itemAmount: TextView = itemView.findViewById(R.id.item_amount)
-        var itemTag: TextView = itemView.findViewById(R.id.item_tag)
-        var itemType: TextView = itemView.findViewById(R.id.item_type)
-        var itemDescription: TextView = itemView.findViewById(R.id.item_description)
+        val itemAmount: TextView = itemView.findViewById(R.id.item_amount)
+        val itemTag: TextView = itemView.findViewById(R.id.item_tag)
+        val itemType: TextView = itemView.findViewById(R.id.item_type)
+        val itemDescription: TextView = itemView.findViewById(R.id.item_description)
 
     }
 
