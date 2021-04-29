@@ -23,33 +23,30 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <EditText
-                android:id="@+id/inputDescription"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:paddingVertical="14dp"
-                android:background="#4D787878"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:textAlignment="center"
-                android:textColorHint="#7A8089"
-                android:hint="Description" />
+                android:layout_height="wrap_content"
+                android:hint="Description">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/inputAmount"
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:paddingVertical="14dp"
+                    android:id="@+id/inputDescription"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Amount">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputAmount"
                     android:inputType="number"
-                    android:hint="0"
-                    android:background="#4D787878"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    android:textAlignment="center"
-                    android:textColorHint="#7A8089">
-                </androidx.appcompat.widget.AppCompatEditText>
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- TAGS -->
             <com.google.android.material.chip.ChipGroup
@@ -115,9 +112,9 @@
                 android:id="@+id/btnSub"
                 android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:layout_marginEnd="10dp"
-                android:background="#4D787878"
-                android:textColor="@color/white"
+                android:backgroundTint="#4D787878"
+                android:layout_marginEnd="5dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="-"
                 android:textStyle="bold"
                 android:textSize="30sp"/>
@@ -125,10 +122,9 @@
                 android:id="@+id/btnAdd"
                 android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginHorizontal="10dp"
-                android:background="#4D787878"
-                android:textColor="@color/white"
+                android:backgroundTint="#4D787878"
+                android:layout_marginStart="5dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="+"
                 android:textStyle="bold"
                 android:textSize="30sp"/>
@@ -142,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:backgroundTint="@color/white"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:text="GO BACK"
         android:textSize="14sp"/>
 </LinearLayout>

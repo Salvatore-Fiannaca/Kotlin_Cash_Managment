@@ -1,7 +1,6 @@
 package com.cashmanagment.fragments
 
 import android.graphics.Color
-import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.cashmanagment.database.DatabaseHandler
 import com.cashmanagment.databinding.FragmentDashboardBinding
+import com.cashmanagment.models.HistoryModel
 import com.cashmanagment.utils.Utils
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -21,6 +21,7 @@ class Dashboard : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
     private var counter: Int = 0
+    private var counterOut: Int = 0
     private var pieChart: PieChart? = null
     private var pieChartTips: PieChart? = null
     private val utils = Utils()
@@ -47,16 +48,16 @@ class Dashboard : Fragment() {
         val dbHandler = DatabaseHandler(this.requireContext())
         return dbHandler.getCounter()
     }
-
     private fun refreshValues(){
         counter = getCashAvailable()
-        var cleaned= utils.cleanIntToString(counter)
+        counterOut = filterCountOut(getActions())
+        var cleaned = utils.cleanIntToString(counter)
         binding.dashCount.text = "€ $cleaned"
-        setupCharts()
+        initCharts()
     }
-
-    private fun setupCharts() {
-        if (counter > 0) {
+    private fun initCharts(){
+        // CHECK FIRST TIME
+        if (counterOut > 0) {
             pieChart?.visibility = View.VISIBLE
         } else {
             pieChart?.visibility = View.GONE
@@ -64,53 +65,73 @@ class Dashboard : Fragment() {
 
         val pieEntries: ArrayList<PieEntry> = ArrayList()
         val pieEntriesTips: ArrayList<PieEntry> = ArrayList()
+
         val typeAmountMap: MutableMap<String, Double> = HashMap()
         val typeAmountMapTips: MutableMap<String, Int> = HashMap()
-
-        typeAmountMap["Necessità"] = counter.toDouble() / 100 * 55
-        typeAmountMapTips["Necessità"] = 55
-        typeAmountMap["Risparmio"] = counter.toDouble() / 100 * 10
+        typeAmountMapTips["Necessary"] = 55
         typeAmountMapTips["Risparmio"] = 10
-        typeAmountMap["Investimento"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Investimento"] = 10
-        typeAmountMap["Formazione"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Formazione"] = 10
-        typeAmountMap["Svago"] = counter.toDouble() / 100 * 10
         typeAmountMapTips["Svago"] = 10
-        typeAmountMap["Donazione"] = counter.toDouble() / 100 * 5
         typeAmountMapTips["Donazione"] = 5
 
+        for (type in typeAmountMapTips.keys) {
+            pieEntriesTips.add(PieEntry(typeAmountMapTips[type]!!.toFloat(), type))
+        }
+
         val colors = ArrayList<Int>()
-        colors.add(Color.parseColor("#4A545D")) //Risparmio
-        colors.add(Color.parseColor("#d8b00f")) //Investimento
-        colors.add(Color.parseColor("#68ba43")) //Necessità
-        colors.add(Color.parseColor("#652b9b")) //Donazione
-        colors.add(Color.parseColor("#134ba0")) //Formazione
-        colors.add(Color.parseColor("#ff4444")) //Svago
+        val colorsTips = ArrayList<Int>()
+        colorsTips.add(Color.parseColor("#4A545D")) //Risparmio
+        colorsTips.add(Color.parseColor("#d8b00f")) //Investimento
+        colorsTips.add(Color.parseColor("#68ba43")) //Necessità
+        colorsTips.add(Color.parseColor("#652b9b")) //Donazione
+        colorsTips.add(Color.parseColor("#134ba0")) //Formazione
+        colorsTips.add(Color.parseColor("#ff4444")) //Svago
+
+        val items = getActions()
+        val totalOut = filterCountOut(items)
+        val tags = arrayListOf("Necessary","Risparmio","Investimento","Formazione","Svago","Donazione")
+        for (tag in tags) {
+            val value =  filterCountOutBy(items, tag) / totalOut * 100
+            if (value > 0) {
+                typeAmountMap[tag] = value
+                when(tag){
+                    "Necessary" -> colors.add(Color.parseColor("#68ba43"))
+                    "Risparmio" -> colors.add(Color.parseColor("#4A545D"))
+                    "Investimento" -> colors.add(Color.parseColor("#d8b00f"))
+                    "Formazione" -> colors.add(Color.parseColor("#134ba0"))
+                    "Svago" -> colors.add(Color.parseColor("#ff4444"))
+                    "Donazione" -> colors.add(Color.parseColor("#652b9b"))
+                }
+            }
+        }
 
         for (type in typeAmountMap.keys) {
             pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
-            pieEntriesTips.add(PieEntry(typeAmountMapTips[type]!!.toFloat(), type))
         }
 
         val pieDataSet = PieDataSet(pieEntries, "type")
         val pieDataSetTips = PieDataSet(pieEntriesTips, "type")
-        pieDataSet.valueTextSize = 15f
-        pieDataSetTips.valueTextSize = 15f
+        pieDataSet.valueTextSize = 18f
+        pieDataSetTips.valueTextSize = 18f
         pieDataSet.valueTextColor = Color.WHITE
         pieDataSetTips.valueTextColor = Color.WHITE
         pieDataSet.colors = colors
-        pieDataSetTips.colors = colors
+        pieDataSetTips.colors = colorsTips
 
         val pieData = PieData(pieDataSet)
         val pieDataTips = PieData(pieDataSetTips)
+        pieData.setDrawValues(false)
         pieDataTips.setDrawValues(false)
         pieChart?.data = pieData
         pieChartTips?.data = pieDataTips
         pieChart?.invalidate()
         pieChartTips?.invalidate()
 
-        // OTHER SETTINGS
+        settingsCharts()
+
+    }
+    private fun settingsCharts(){
         pieChart?.setUsePercentValues(false)
         pieChartTips?.setUsePercentValues(true)
         pieChart?.description?.isEnabled = false
@@ -130,12 +151,28 @@ class Dashboard : Fragment() {
         pieChart?.setHoleColor(Color.parseColor("#000000"))
         pieChartTips?.setHoleColor(Color.parseColor("#000000"))
 
-        pieChart?.centerText = "Current Partition"
-        pieChartTips?.centerText = "Recommended Partition"
+        pieChart?.centerText = "Current"
+        pieChartTips?.centerText = "Recommended"
         pieChart?.setCenterTextSize(17f)
         pieChartTips?.setCenterTextSize(17f)
         pieChart?.setCenterTextColor(Color.WHITE)
         pieChartTips?.setCenterTextColor(Color.WHITE)
-
+    }
+    private fun filterCountOut( items: ArrayList<HistoryModel>): Int {
+        var total = 0;
+        val filterByIn  = items.filter { i -> i.type == "out" }
+        for (i in filterByIn) total += kotlin.math.abs(i.amount)
+        return total
+    }
+    private fun filterCountOutBy(
+            items: ArrayList<HistoryModel>, tag: String): Double {
+        var total = 0.0;
+        val filterByIn  = items.filter { i -> i.tag == tag }
+        for (i in filterByIn) total += kotlin.math.abs(i.amount)
+        return total
+    }
+    private fun getActions(): ArrayList<HistoryModel> {
+        val dbHandler = DatabaseHandler(this.requireContext())
+        return dbHandler.readAll()
     }
 }
