@@ -11,6 +11,7 @@ import com.cashmanagment.R
 import com.cashmanagment.database.DatabaseHandler
 import com.cashmanagment.fragments.History
 import com.cashmanagment.models.HistoryModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.math.abs
 
 class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>(){
@@ -42,9 +43,19 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
         holder.itemTag.text = items[position].tag
 
         holder.itemDelete.setOnClickListener{
-            deleteItem(id, amount, ctx)
-            items.remove(items[position])
-            notifyDataSetChanged()
+            MaterialAlertDialogBuilder(ctx)
+                    .setMessage("Are you sure to delete this?")
+                    .setNegativeButton("Decline") { dialog, which ->
+                        dialog.cancel()
+                    }
+                    .setPositiveButton("Conferm") { dialog, which ->
+                        deleteItem(id, amount, ctx)
+                        items.remove(items[position])
+                        notifyDataSetChanged()
+
+                        dialog.cancel()
+                    }
+                    .show()
         }
     }
 
