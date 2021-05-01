@@ -43,6 +43,8 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
 
         holder.itemDelete.setOnClickListener{
             deleteItem(id, amount, ctx)
+            items.remove(items[position])
+            notifyDataSetChanged()
         }
     }
 
