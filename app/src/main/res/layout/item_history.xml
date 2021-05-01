@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
+    android:layout_marginEnd="2dp"
     android:layout_height="wrap_content">
 
     <TextView
@@ -31,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_marginEnd="48dp"
         android:text="+"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="20sp" />
@@ -45,7 +47,7 @@
         android:layout_marginTop="7dp"
         android:text="Description"
         android:maxLength="25"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/item_tag"
@@ -54,8 +56,16 @@
         android:layout_below="@+id/item_type"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginEnd="48dp"
         android:text="Tag"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/item_delete"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/ic_delete"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

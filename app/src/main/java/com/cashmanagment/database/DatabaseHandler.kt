@@ -55,24 +55,22 @@ class DatabaseHandler(context: Context) :
         onCreate(db)
     }
 
-    private fun updateCounter(newValue: Int) {
+    fun updateCounter(newValue: Int) {
         val db = this.writableDatabase
         val cv = ContentValues()
-
         val currentValue: Int = getCounter()
-        val actions = readAll().size
 
         try {
-           if (actions <  2) {
-                // FIRST TIME
-                cv.put(KEY_COUNT, newValue)
-                db.insert(TABLE_COUNT, null, cv)
-                db.close()
+           if (checkTableCount()) {
+               // UPDATE
+               cv.put(KEY_COUNT, currentValue + newValue )
+               db.update(TABLE_COUNT, cv, "count = $currentValue", null )
+               db.close()
             } else {
-                // UPDATE
-                cv.put(KEY_COUNT, currentValue + newValue )
-                db.update(TABLE_COUNT, cv, "count = $currentValue", null )
-                db.close()
+               // FIRST TIME
+               cv.put(KEY_COUNT, newValue)
+               db.insert(TABLE_COUNT, null, cv)
+               db.close()
             }
         }catch (e: SQLiteException){
             Log.e("updateCounter",e.stackTraceToString())
@@ -96,23 +94,6 @@ class DatabaseHandler(context: Context) :
         }
     }
 
-    fun updateData(history: HistoryModel){
-        val db = this.writableDatabase
-        val cv = ContentValues().apply {
-            put(KEY_ID, history.id)
-            put(KEY_TYPE, history.type)
-            put(KEY_DESCRIPTION, history.description)
-            put(KEY_TAG, history.tag)
-            put(KEY_AMOUNT, history.amount)
-        }
-        try {
-            db.update(TABLE_ACTIONS, cv, "_id = ?", arrayOf(history.id.toString()))
-        }catch (e: SQLiteException){
-            Log.e("updateData", e.stackTraceToString())
-        }
-
-    }
-
     fun deleteData(id: String): Int{
         val db = this.writableDatabase
         return try {
@@ -125,23 +106,34 @@ class DatabaseHandler(context: Context) :
     fun getCounter(): Int {
         val db = this.writableDatabase
         var n = 0
-        val queryCounter = "SELECT count(*) FROM $TABLE_COUNT"
         val queryTable = "SELECT * FROM $TABLE_COUNT"
+        if (checkTableCount()) {
+            try {
+                val newCursor : Cursor = db.rawQuery(queryTable, null)
+                newCursor.moveToFirst()
+                n = newCursor.getInt(0)
+            }catch (e: SQLiteException){
+                Log.e("readCounter", e.stackTraceToString())
+            }
+        }
+        return n
+    }
+
+    private fun checkTableCount():Boolean{
+        val db = this.writableDatabase
+        val queryCounter = "SELECT count(*) FROM $TABLE_COUNT"
         try {
             val cursor : Cursor = db.rawQuery(queryCounter, null)
             cursor.moveToFirst();
             val tableRow = cursor.getInt(0)
 
             if (tableRow > 0) {
-                val newCursor : Cursor = db.rawQuery(queryTable, null)
-                newCursor.moveToFirst()
-                n = newCursor.getInt(0)
+                return true
             }
         }catch (e: SQLiteException){
             Log.e("readCounter", e.stackTraceToString())
         }
-
-        return n
+        return false
     }
 
     fun readAll():ArrayList<HistoryModel> {

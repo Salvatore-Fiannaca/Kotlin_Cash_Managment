@@ -43,11 +43,9 @@ class History : Fragment() {
     }
 
     private fun refreshValues(){
-        val items = getActions()
-
         layoutManager = LinearLayoutManager(this.requireContext())
         binding.recyclerView.layoutManager = layoutManager
-        adapter = RecyclerAdapter(items)
+        adapter = RecyclerAdapter(getActions())
         binding.recyclerView.adapter = adapter
     }
 

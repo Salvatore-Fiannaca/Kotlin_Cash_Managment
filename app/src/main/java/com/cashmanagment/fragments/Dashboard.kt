@@ -56,7 +56,6 @@ class Dashboard : Fragment() {
         initCharts()
     }
     private fun initCharts(){
-        // CHECK FIRST TIME
         if (counterOut > 0) {
             pieChart?.visibility = View.VISIBLE
         } else {
