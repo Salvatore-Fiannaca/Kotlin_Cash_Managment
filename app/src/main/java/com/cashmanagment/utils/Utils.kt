@@ -4,8 +4,10 @@ class Utils {
 
     fun cleanIntToString(counter: Int): String {
         var str = "$counter"
-
+        if (str.contains("-"))
+            return str
         if (str.length >3){
+
             var reverseString = str.reversed()
             var arrString = ArrayList<String>();
 

@@ -147,8 +147,8 @@ class Dashboard : Fragment() {
         pieChartTips?.isHighlightPerTapEnabled = true
         pieChart?.animateY(1200, Easing.EaseInOutQuad)
         pieChartTips?.animateY(1200, Easing.EaseInOutQuad)
-        pieChart?.setHoleColor(Color.parseColor("#000000"))
-        pieChartTips?.setHoleColor(Color.parseColor("#000000"))
+        pieChart?.setHoleColor(Color.BLACK)
+        pieChartTips?.setHoleColor(Color.BLACK)
 
         pieChart?.centerText = "Current"
         pieChartTips?.centerText = "Recommended"
