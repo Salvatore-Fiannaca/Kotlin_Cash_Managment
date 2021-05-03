@@ -28,4 +28,8 @@ class Utils {
         return str
     }
 
+    fun getTags(): ArrayList<String>{
+        return  arrayListOf("Necessary", "Saving", "Investiment", "Formation", "Fun", "Donation")
+    }
+
 }

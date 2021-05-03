@@ -1,7 +1,7 @@
 package com.cashmanagment.activities
 
 import android.os.Bundle
-import android.util.Log
+import com.cashmanagment.utils.Utils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.iterator
@@ -11,6 +11,7 @@ import com.cashmanagment.models.HistoryModel
 
 class AddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
+    private val utils = Utils()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,22 +37,15 @@ class AddActivity : AppCompatActivity() {
     private fun submit(add: Boolean){
         var description = binding.inputDescription.text.toString()
         var amount = binding.inputAmount.text.toString().toInt()
-        var tag = ""
-        var type = "in"
+        var tag = ""; var type = "in"
 
         if (!add){
             amount = -amount
             type = "out"
-            tag = getChipChecked()
+            tag = getTagChecked()
         }
 
-        val item = HistoryModel(
-                0,
-                type,
-                description,
-                tag,
-                amount
-        )
+        val item = HistoryModel(0, type, description, tag, amount)
         val dbHandler = DatabaseHandler(this)
         dbHandler.insertData(item)
         finish()
@@ -68,15 +62,8 @@ class AddActivity : AppCompatActivity() {
 
         return false
     }
-    private fun getChipChecked(): String {
-        var tags = arrayOf(
-                "Necessary",
-                "Risparmio",
-                "Investimento",
-                "Formazione",
-                "Svago",
-                "Donazione"
-        )
+    private fun getTagChecked(): String {
+        var tags = utils.getTags()
         val chipGroup = binding.chipGroup
         val chipChecked = chipGroup.checkedChipId
 

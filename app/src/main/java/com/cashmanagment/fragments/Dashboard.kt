@@ -67,44 +67,43 @@ class Dashboard : Fragment() {
 
         val typeAmountMap: MutableMap<String, Double> = HashMap()
         val typeAmountMapTips: MutableMap<String, Int> = HashMap()
+        val colors = ArrayList<Int>()
+        val colorsTips = ArrayList<Int>()
+
         typeAmountMapTips["Necessary"] = 55
-        typeAmountMapTips["Risparmio"] = 10
-        typeAmountMapTips["Investimento"] = 10
-        typeAmountMapTips["Formazione"] = 10
-        typeAmountMapTips["Svago"] = 10
-        typeAmountMapTips["Donazione"] = 5
+        typeAmountMapTips["Saving"] = 10
+        typeAmountMapTips["Investiment"] = 10
+        typeAmountMapTips["Formation"] = 10
+        typeAmountMapTips["Fun"] = 10
+        typeAmountMapTips["Donation"] = 5
+
+        colorsTips.add(Color.parseColor("#68ba43")) // Necessary
+        colorsTips.add(Color.parseColor("#d8b00f")) // Investiment
+        colorsTips.add(Color.parseColor("#652b9b")) // Donation
+        colorsTips.add(Color.parseColor("#4A545D")) // Saving
+        colorsTips.add(Color.parseColor("#134ba0")) // Formation
+        colorsTips.add(Color.parseColor("#ff4444")) // Fun
 
         for (type in typeAmountMapTips.keys) {
             pieEntriesTips.add(PieEntry(typeAmountMapTips[type]!!.toFloat(), type))
         }
 
-        val colors = ArrayList<Int>()
-        val colorsTips = ArrayList<Int>()
-        colorsTips.add(Color.parseColor("#4A545D")) //Risparmio
-        colorsTips.add(Color.parseColor("#d8b00f")) //Investimento
-        colorsTips.add(Color.parseColor("#68ba43")) //Necessità
-        colorsTips.add(Color.parseColor("#652b9b")) //Donazione
-        colorsTips.add(Color.parseColor("#134ba0")) //Formazione
-        colorsTips.add(Color.parseColor("#ff4444")) //Svago
-
         val items = getActions()
         val totalOut = filterCountOut(items)
-        val tags = arrayListOf("Necessary","Risparmio","Investimento","Formazione","Svago","Donazione")
-        for (tag in tags) {
+        for (tag in utils.getTags()) {
             val value =  filterCountOutBy(items, tag) / totalOut * 100
             if (value > 0) {
                 typeAmountMap[tag] = value
                 when(tag){
                     "Necessary" -> colors.add(Color.parseColor("#68ba43"))
-                    "Risparmio" -> colors.add(Color.parseColor("#4A545D"))
-                    "Investimento" -> colors.add(Color.parseColor("#d8b00f"))
-                    "Formazione" -> colors.add(Color.parseColor("#134ba0"))
-                    "Svago" -> colors.add(Color.parseColor("#ff4444"))
-                    "Donazione" -> colors.add(Color.parseColor("#652b9b"))
+                    "Saving" -> colors.add(Color.parseColor("#4A545D"))
+                    "Investiment" -> colors.add(Color.parseColor("#d8b00f"))
+                    "Formation" -> colors.add(Color.parseColor("#134ba0"))
+                    "Fun" -> colors.add(Color.parseColor("#ff4444"))
+                    "Donation" -> colors.add(Color.parseColor("#652b9b"))
                 }
             }
         }
-
         for (type in typeAmountMap.keys) {
             pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
         }
@@ -130,6 +129,7 @@ class Dashboard : Fragment() {
         settingsCharts()
 
     }
+
     private fun settingsCharts(){
         pieChart?.setUsePercentValues(false)
         pieChartTips?.setUsePercentValues(true)

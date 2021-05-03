@@ -62,12 +62,12 @@
                     android:layout_height="wrap_content"
                     android:checked="true"
                     android:checkable="true"
-                    android:text="Necessità"/>
+                    android:text="Necessary"/>
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Risparmio"
+                    android:text="Saving"
                     android:checked="false"
                     android:checkable="true"/>
                 <com.google.android.material.chip.Chip
@@ -76,26 +76,26 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:checkable="true"
-                    android:text="Investimento" />
+                    android:text="Investiment" />
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Formazione"
+                    android:text="Formation"
                     android:checked="false"
                     android:checkable="true" />
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Svago"
+                    android:text="Fun"
                     android:checked="false"
                     android:checkable="true"/>
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Donazione"
+                    android:text="Donation"
                     android:checked="false"
                     android:checkable="true"/>
 
