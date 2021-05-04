@@ -15,6 +15,7 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.utils.ColorTemplate
 
 
 class Dashboard : Fragment() {
@@ -92,19 +93,18 @@ class Dashboard : Fragment() {
         val totalOut = filterCountOut(items)
         for (tag in utils.getTags()) {
             val value =  filterCountOutBy(items, tag) / totalOut * 100
-            if (value > 0) {
+            if (value > 0)
                 typeAmountMap[tag] = value
-                when(tag){
-                    "Necessary" -> colors.add(Color.parseColor("#68ba43"))
-                    "Saving" -> colors.add(Color.parseColor("#4A545D"))
-                    "Investiment" -> colors.add(Color.parseColor("#d8b00f"))
-                    "Formation" -> colors.add(Color.parseColor("#134ba0"))
-                    "Fun" -> colors.add(Color.parseColor("#ff4444"))
-                    "Donation" -> colors.add(Color.parseColor("#652b9b"))
-                }
-            }
         }
         for (type in typeAmountMap.keys) {
+            when(type){
+                "Necessary" -> colors.add(Color.parseColor("#68ba43"))
+                "Saving" -> colors.add(Color.parseColor("#4A545D"))
+                "Investiment" -> colors.add(Color.parseColor("#d8b00f"))
+                "Formation" -> colors.add(Color.parseColor("#134ba0"))
+                "Fun" -> colors.add(Color.parseColor("#ff4444"))
+                "Donation" -> colors.add(Color.parseColor("#652b9b"))
+            }
             pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
         }
 
