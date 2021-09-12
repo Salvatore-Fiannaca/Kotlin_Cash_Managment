@@ -117,7 +117,8 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="-"
                 android:textStyle="bold"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:textAlignment="center"/>
             <Button
                 android:id="@+id/btnAdd"
                 android:layout_width="120dp"
@@ -127,7 +128,8 @@
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="+"
                 android:textStyle="bold"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:textAlignment="center"/>
         </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

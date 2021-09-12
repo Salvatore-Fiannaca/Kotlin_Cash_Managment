@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:textSize="30sp"
-            android:text="Disponibile"/>
+            android:text="Available:"/>
         <TextView
             android:id="@+id/dash_count"
             android:layout_width="wrap_content"
