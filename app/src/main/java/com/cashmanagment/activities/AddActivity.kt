@@ -32,6 +32,8 @@ class AddActivity : AppCompatActivity() {
                 submit(false)
             }
         }
+
+        binding.inputAmount.requestFocus()
     }
 
     private fun submit(add: Boolean){
