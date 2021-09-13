@@ -19,9 +19,6 @@ class AddActivity : AppCompatActivity() {
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnBack.setOnClickListener{
-            onBackPressed()
-        }
         binding.btnAdd.setOnClickListener{
             if (checkInput()){
                 submit(true)
@@ -37,7 +34,6 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun submit(add: Boolean){
-        var description = binding.inputDescription.text.toString()
         var amount = binding.inputAmount.text.toString().toInt()
         var tag = ""; var type = "in"
 
@@ -47,7 +43,7 @@ class AddActivity : AppCompatActivity() {
             tag = getTagChecked()
         }
 
-        val item = HistoryModel(0, type, description, tag, amount)
+        val item = HistoryModel(0, type, tag, amount)
         val dbHandler = DatabaseHandler(this)
         dbHandler.insertData(item)
         finish()
@@ -65,7 +61,7 @@ class AddActivity : AppCompatActivity() {
         return false
     }
     private fun getTagChecked(): String {
-        var tags = utils.getTags()
+        val tags = utils.getTags()
         val chipGroup = binding.chipGroup
         val chipChecked = chipGroup.checkedChipId
 

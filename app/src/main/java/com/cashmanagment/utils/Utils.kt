@@ -8,8 +8,8 @@ class Utils {
             return str
         if (str.length >3){
 
-            var reverseString = str.reversed()
-            var arrString = ArrayList<String>();
+            val reverseString = str.reversed()
+            val arrString = ArrayList<String>()
 
             var i = 1
             for (c in reverseString) {
@@ -31,7 +31,7 @@ class Utils {
     }
 
     fun getTags(): ArrayList<String>{
-        return  arrayListOf("Necessary", "Saving", "Investiment", "Formation", "Fun", "Donation")
+        return  arrayListOf("Necessary", "Saving", "Investment", "Formation", "Fun", "Donation")
     }
 
 }

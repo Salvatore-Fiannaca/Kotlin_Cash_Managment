@@ -8,12 +8,11 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/item_currency"
+        android:id="@+id/item_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/item_tag"
         android:layout_alignParentTop="true"
-        android:text="€"
+        android:text="+"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="20sp" />
 
@@ -21,51 +20,26 @@
         android:id="@+id/item_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/item_type"
-        android:layout_toEndOf="@+id/item_currency"
+        android:layout_alignParentTop="true"
         android:text="0"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <TextView
-        android:id="@+id/item_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="48dp"
-        android:text="+"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/item_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/item_currency"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="7dp"
-        android:text="Description"
-        android:maxLength="25"
-        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/item_tag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/item_type"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="48dp"
         android:text="Tag"
         android:textSize="18sp" />
 
     <Button
         android:id="@+id/item_delete"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/ic_delete"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"/>
+        android:layout_width="35dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/ic_delete" />
 
 </RelativeLayout>

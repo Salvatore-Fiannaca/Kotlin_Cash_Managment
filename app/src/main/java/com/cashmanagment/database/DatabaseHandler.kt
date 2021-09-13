@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.cashmanagment.models.HistoryModel
-import kotlin.math.round
-import kotlin.math.roundToInt
-import kotlin.math.roundToLong
 
 class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -24,7 +21,6 @@ class DatabaseHandler(context: Context) :
         // COLUMNS TABLE_CASH
         private const val KEY_ID = "_id"
         private const val KEY_TYPE = "type"
-        private const val KEY_DESCRIPTION = "description"
         private const val KEY_TAG = "tag"
         private const val KEY_AMOUNT = "amount"
 
@@ -34,19 +30,18 @@ class DatabaseHandler(context: Context) :
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val query_create_cash_table = (
+        val queryCreateCashTable = (
                 "CREATE TABLE $TABLE_ACTIONS (" +
                 "$KEY_ID INTEGER PRIMARY KEY," +
                 "$KEY_TYPE INTEGER," +
-                "$KEY_DESCRIPTION TEXT," +
                 "$KEY_TAG TEXT," +
                 "$KEY_AMOUNT INTEGER)")
-        val query_create_counter_table = (
+        val queryCreateCounterTable = (
                 "CREATE TABLE $TABLE_COUNT (" +
                 "$KEY_COUNT NUMERIC)")
 
-        db?.execSQL(query_create_cash_table)
-        db?.execSQL(query_create_counter_table)
+        db?.execSQL(queryCreateCashTable)
+        db?.execSQL(queryCreateCounterTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -81,7 +76,6 @@ class DatabaseHandler(context: Context) :
         val db = this.writableDatabase
         val cv = ContentValues().apply {
             put(KEY_TYPE, history.type)
-            put(KEY_DESCRIPTION, history.description)
             put(KEY_TAG, history.tag)
             put(KEY_AMOUNT, history.amount)
         }
@@ -105,26 +99,27 @@ class DatabaseHandler(context: Context) :
 
     fun getCounter(): Int {
         val db = this.writableDatabase
-        var n = 0
+        var counter = 0
         val queryTable = "SELECT * FROM $TABLE_COUNT"
         if (checkTableCount()) {
             try {
                 val newCursor : Cursor = db.rawQuery(queryTable, null)
                 newCursor.moveToFirst()
-                n = newCursor.getInt(0)
+                counter = newCursor.getInt(0)
+                newCursor.close()
             }catch (e: SQLiteException){
                 Log.e("readCounter", e.stackTraceToString())
             }
         }
-        return n
+        return counter
     }
 
     private fun checkTableCount():Boolean{
         val db = this.writableDatabase
         val queryCounter = "SELECT count(*) FROM $TABLE_COUNT"
+        val cursor : Cursor = db.rawQuery(queryCounter, null)
         try {
-            val cursor : Cursor = db.rawQuery(queryCounter, null)
-            cursor.moveToFirst();
+            cursor.moveToFirst()
             val tableRow = cursor.getInt(0)
 
             if (tableRow > 0) {
@@ -132,7 +127,10 @@ class DatabaseHandler(context: Context) :
             }
         }catch (e: SQLiteException){
             Log.e("readCounter", e.stackTraceToString())
+        }finally {
+            cursor.close()
         }
+
         return false
     }
 
@@ -148,7 +146,6 @@ class DatabaseHandler(context: Context) :
                     val item = HistoryModel(
                             cursor.getInt(cursor.getColumnIndex(KEY_ID)),
                             cursor.getString(cursor.getColumnIndex(KEY_TYPE)),
-                            cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)),
                             cursor.getString(cursor.getColumnIndex(KEY_TAG)),
                             cursor.getInt(cursor.getColumnIndex(KEY_AMOUNT)),
                     )

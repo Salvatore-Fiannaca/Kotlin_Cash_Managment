@@ -3,6 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/drawable/ic_delete.xml" value="0.1935" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/drawable/ic_privacy_hide.xml" value="0.1" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/drawable/ic_privacy_show.xml" value="0.1" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/layout/activity_add.xml" value="0.25" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/layout/activity_main.xml" value="0.15715579710144928" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/layout/fragment_dashboard.xml" value="0.2988679352838745" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/layout/fragment_history.xml" value="0.15715579710144928" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/layout/item_history.xml" value="0.25" />
+        <entry key="..\:/Toto/Dev/old/Kotlin_Cash_Managment/app/src/main/res/menu/menu.xml" value="0.23425925925925925" />
         <entry key="..\:/Users/Enjoy/Desktop/Dev/Kotlin_Cash_Managment/app/src/main/res/layout/activity_add.xml" value="0.2988679352838745" />
         <entry key="..\:/Users/Enjoy/Desktop/Dev/Kotlin_Cash_Managment/app/src/main/res/layout/activity_main.xml" value="0.2988679352838745" />
         <entry key="..\:/Users/Enjoy/Desktop/Dev/Kotlin_Cash_Managment/app/src/main/res/layout/fragment_dashboard.xml" value="0.10131712259371833" />

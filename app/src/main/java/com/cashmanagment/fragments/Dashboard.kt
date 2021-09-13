@@ -15,24 +15,32 @@ import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.utils.ColorTemplate
 
 
 class Dashboard : Fragment() {
 
     private lateinit var binding: FragmentDashboardBinding
-    private var counter: Int = 0
+    private var counter: String = "0"
     private var counterOut: Int = 0
     private var pieChart: PieChart? = null
     private var pieChartTips: PieChart? = null
     private val utils = Utils()
+    private var privacyToggle = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentDashboardBinding.inflate(layoutInflater)
         pieChart = binding.pieChartView
         pieChartTips = binding.pieChartViewTips
+        setPrivacyMode(true)
         refreshValues()
+
+        binding.privacyToggleHide.setOnClickListener{
+            setPrivacyMode(true)
+        }
+        binding.privacyToggleShow.setOnClickListener{
+            setPrivacyMode(false)
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -43,24 +51,38 @@ class Dashboard : Fragment() {
     override fun onResume() {
         super.onResume()
         refreshValues()
+        setPrivacyMode(privacyToggle)
     }
 
-    private fun getCashAvailable(): Int {
+    private fun getCashAvailable(): String {
         val dbHandler = DatabaseHandler(this.requireContext())
-        return dbHandler.getCounter()
+        val rowCounter = dbHandler.getCounter()
+        return utils.cleanIntToString(rowCounter)
     }
     private fun refreshValues(){
         counter = getCashAvailable()
         counterOut = filterCountOut(getActions())
-        var cleaned = utils.cleanIntToString(counter)
-        binding.dashCount.text = "€ $cleaned"
         initCharts()
+    }
+    private fun setPrivacyMode(bool: Boolean){
+        if (bool) {
+            privacyToggle = true
+            binding.dashCount.text = "***"
+            binding.privacyToggleShow.visibility = View.VISIBLE
+            binding.privacyToggleHide.visibility = View.GONE
+        } else {
+            privacyToggle = false
+            binding.dashCount.text = "€ $counter"
+            binding.privacyToggleHide.visibility = View.VISIBLE
+            binding.privacyToggleShow.visibility = View.GONE
+
+        }
     }
     private fun initCharts(){
         if (counterOut > 0) {
             pieChart?.visibility = View.VISIBLE
         } else {
-            pieChart?.visibility = View.GONE
+           pieChart?.visibility = View.GONE
         }
 
         val pieEntries: ArrayList<PieEntry> = ArrayList()
@@ -73,13 +95,13 @@ class Dashboard : Fragment() {
 
         typeAmountMapTips["Necessary"] = 55
         typeAmountMapTips["Saving"] = 10
-        typeAmountMapTips["Investiment"] = 10
+        typeAmountMapTips["Investment"] = 10
         typeAmountMapTips["Formation"] = 10
         typeAmountMapTips["Fun"] = 10
         typeAmountMapTips["Donation"] = 5
 
         colorsTips.add(Color.parseColor("#68ba43")) // Necessary
-        colorsTips.add(Color.parseColor("#d8b00f")) // Investiment
+        colorsTips.add(Color.parseColor("#d8b00f")) // Investment
         colorsTips.add(Color.parseColor("#652b9b")) // Donation
         colorsTips.add(Color.parseColor("#4A545D")) // Saving
         colorsTips.add(Color.parseColor("#134ba0")) // Formation
@@ -100,7 +122,7 @@ class Dashboard : Fragment() {
             when(type){
                 "Necessary" -> colors.add(Color.parseColor("#68ba43"))
                 "Saving" -> colors.add(Color.parseColor("#4A545D"))
-                "Investiment" -> colors.add(Color.parseColor("#d8b00f"))
+                "Investment" -> colors.add(Color.parseColor("#d8b00f"))
                 "Formation" -> colors.add(Color.parseColor("#134ba0"))
                 "Fun" -> colors.add(Color.parseColor("#ff4444"))
                 "Donation" -> colors.add(Color.parseColor("#652b9b"))
@@ -158,14 +180,14 @@ class Dashboard : Fragment() {
         pieChartTips?.setCenterTextColor(Color.WHITE)
     }
     private fun filterCountOut( items: ArrayList<HistoryModel>): Int {
-        var total = 0;
+        var total = 0
         val filterByIn  = items.filter { i -> i.type == "out" }
         for (i in filterByIn) total += kotlin.math.abs(i.amount)
         return total
     }
     private fun filterCountOutBy(
             items: ArrayList<HistoryModel>, tag: String): Double {
-        var total = 0.0;
+        var total = 0.0
         val filterByIn  = items.filter { i -> i.tag == tag }
         for (i in filterByIn) total += kotlin.math.abs(i.amount)
         return total

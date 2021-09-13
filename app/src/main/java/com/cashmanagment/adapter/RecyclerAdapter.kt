@@ -9,7 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cashmanagment.R
 import com.cashmanagment.database.DatabaseHandler
-import com.cashmanagment.fragments.History
 import com.cashmanagment.models.HistoryModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.math.abs
@@ -29,8 +28,8 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         val currentType = items[position].type
         when (currentType){
-            "in"-> holder.itemType.setTextColor(Color.GREEN)
-            "out"-> holder.itemType.setTextColor(Color.RED)
+          "in"-> holder.itemType.setTextColor(Color.GREEN)
+          "out"-> holder.itemType.setTextColor(Color.RED)
         }
 
         val id = items[position].id.toString()
@@ -39,20 +38,19 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
 
         holder.itemType.text = currentType
         holder.itemAmount.text = "$amount"
-        holder.itemDescription.text = items[position].description
         holder.itemTag.text = items[position].tag
 
         holder.itemDelete.setOnClickListener{
             MaterialAlertDialogBuilder(ctx)
                     .setMessage("Are you sure to delete this?")
-                    .setNegativeButton("Decline") { dialog, which ->
+                    .setNegativeButton("Decline") { dialog, _ ->
                         dialog.cancel()
                     }
-                    .setPositiveButton("Conferm") { dialog, which ->
+                    .setPositiveButton("Confirm") { dialog, _ ->
                         deleteItem(id, amount, ctx)
                         items.remove(items[position])
-                        notifyDataSetChanged()
 
+                        notifyItemChanged(position)
                         dialog.cancel()
                     }
                     .show()
@@ -63,7 +61,6 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
         val itemAmount: TextView = itemView.findViewById(R.id.item_amount)
         val itemTag: TextView = itemView.findViewById(R.id.item_tag)
         val itemType: TextView = itemView.findViewById(R.id.item_type)
-        val itemDescription: TextView = itemView.findViewById(R.id.item_description)
         val itemDelete: TextView = itemView.findViewById(R.id.item_delete)
     }
 

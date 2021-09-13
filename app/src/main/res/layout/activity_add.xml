@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_vertical|center"
+    android:gravity="top"
     tools:context=".activities.AddActivity">
 
     <!-- CENTER CARD CONTAINER-->
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="5dp"
         >
@@ -26,19 +27,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Description">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/inputDescription"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Amount*">
+                android:hint="Amount">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -54,7 +43,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
-                android:layout_marginTop="30dp">
+                android:padding="8dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp">
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip"
@@ -76,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:checked="false"
                     android:checkable="true"
-                    android:text="Investiment" />
+                    android:text="Investment" />
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chip4"
                     android:layout_width="wrap_content"
@@ -101,7 +92,7 @@
 
             </com.google.android.material.chip.ChipGroup>
 
-            <!-- BUTTON ADD | SUB -->
+            <!-- BUTTON -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,7 +100,7 @@
             android:gravity="center_horizontal">
             <Button
                 android:id="@+id/btnSub"
-                android:layout_width="120dp"
+                android:layout_width="130dp"
                 android:layout_height="65dp"
                 android:backgroundTint="#4D787878"
                 android:layout_margin="10dp"
@@ -121,7 +112,7 @@
                 android:textAlignment="center"/>
             <Button
                 android:id="@+id/btnAdd"
-                android:layout_width="120dp"
+                android:layout_width="130dp"
                 android:layout_height="65dp"
                 android:backgroundTint="#4D787878"
                 android:layout_margin="10dp"
@@ -133,14 +124,4 @@
         </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
-    <!-- BACK BUTTON -->
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:text="GO BACK"
-        android:textSize="14sp"/>
 </LinearLayout>
