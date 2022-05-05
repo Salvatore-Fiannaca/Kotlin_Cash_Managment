@@ -35,7 +35,8 @@ class AddActivity : AppCompatActivity() {
 
     private fun submit(add: Boolean){
         var amount = binding.inputAmount.text.toString().toInt()
-        var tag = ""; var type = "in"
+        var tag = ""
+        var type = "in"
 
         if (!add){
             amount = -amount
@@ -50,7 +51,7 @@ class AddActivity : AppCompatActivity() {
     }
     private fun checkInput(): Boolean {
         val amount = binding.inputAmount.text.toString()
-        if (amount != "" && amount.toDouble() > 0)
+        if (amount != "" && amount.toInt() in 1..999999999)
             return true
 
         Toast.makeText(
