@@ -1,8 +1,8 @@
 package com.cashmanagment.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cashmanagment.R
 import com.cashmanagment.database.DatabaseHandler
 import com.cashmanagment.models.HistoryModel
+import com.cashmanagment.utils.Utils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlin.math.abs
 
@@ -26,20 +27,28 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
         return items.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
-        val currentType = items[position].type
-        when (currentType){
-          "in"-> holder.itemType.setTextColor(Color.GREEN)
-          "out"-> holder.itemType.setTextColor(Color.RED)
-        }
-
+        val ctx = holder.itemDelete.context
         val id = items[position].id.toString()
         val amount = items[position].amount
-        val ctx = holder.itemDelete.context
+        val tag = items[position].tag
 
-        holder.itemType.text = currentType
-        holder.itemAmount.text = "$amount"
-        holder.itemTag.text = items[position].tag
+        var timestamp = items[position].timestamp
+        //if (timestamp == Utils().getCurrentDate()) timestamp = "Today"
+
+        when (items[position].type){
+          "in"-> {
+              holder.itemAmount.setTextColor(Color.GREEN)
+              holder.itemAmount.text = "+$amount"
+          }
+          "out"-> {
+              holder.itemAmount.text = "$amount"
+              holder.itemAmount.setTextColor(Color.RED)
+          }
+        }
+        holder.itemTimestamp.text = timestamp
+        holder.itemTag.text = tag
 
         holder.itemDelete.setOnClickListener{
             MaterialAlertDialogBuilder(ctx)
@@ -61,7 +70,7 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val itemAmount: TextView = itemView.findViewById(R.id.item_amount)
         val itemTag: TextView = itemView.findViewById(R.id.item_tag)
-        val itemType: TextView = itemView.findViewById(R.id.item_type)
+        val itemTimestamp: TextView = itemView.findViewById(R.id.item_timestamp)
         val itemDelete: TextView = itemView.findViewById(R.id.item_delete)
     }
 

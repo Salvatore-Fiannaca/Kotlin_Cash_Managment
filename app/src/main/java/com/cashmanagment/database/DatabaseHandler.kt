@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.cashmanagment.models.HistoryModel
+import com.cashmanagment.utils.Utils
 
 class DatabaseHandler(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -23,6 +24,7 @@ class DatabaseHandler(context: Context) :
         private const val KEY_TYPE = "type"
         private const val KEY_TAG = "tag"
         private const val KEY_AMOUNT = "amount"
+        private const val KEY_TIMESTAMP = "timestamp"
 
         // COLUMNS TABLE_COUNT
         private const val KEY_COUNT = "count"
@@ -33,6 +35,7 @@ class DatabaseHandler(context: Context) :
         val queryCreateCashTable = (
                 "CREATE TABLE $TABLE_ACTIONS (" +
                 "$KEY_ID INTEGER PRIMARY KEY," +
+                "$KEY_TIMESTAMP TEXT," +
                 "$KEY_TYPE INTEGER," +
                 "$KEY_TAG TEXT," +
                 "$KEY_AMOUNT INTEGER)")
@@ -78,6 +81,7 @@ class DatabaseHandler(context: Context) :
             put(KEY_TYPE, history.type)
             put(KEY_TAG, history.tag)
             put(KEY_AMOUNT, history.amount)
+            put(KEY_TIMESTAMP, history.timestamp)
         }
         try {
             db.insert(TABLE_ACTIONS, null, cv)
@@ -136,7 +140,7 @@ class DatabaseHandler(context: Context) :
 
     fun readAll():ArrayList<HistoryModel> {
         val cashItemList = ArrayList<HistoryModel>()
-        val query = "SELECT * FROM $TABLE_ACTIONS"
+        val query = "SELECT * FROM $TABLE_ACTIONS ORDER BY $KEY_ID DESC"
         val db = this.readableDatabase
 
         try {
@@ -145,9 +149,11 @@ class DatabaseHandler(context: Context) :
                 do {
                     val item = HistoryModel(
                             cursor.getInt(cursor.getColumnIndex(KEY_ID)),
+                            cursor.getString(cursor.getColumnIndex(KEY_TIMESTAMP)),
                             cursor.getString(cursor.getColumnIndex(KEY_TYPE)),
                             cursor.getString(cursor.getColumnIndex(KEY_TAG)),
                             cursor.getInt(cursor.getColumnIndex(KEY_AMOUNT)),
+
                     )
                     cashItemList.add(item)
 
@@ -159,7 +165,6 @@ class DatabaseHandler(context: Context) :
             db.execSQL(query)
             return ArrayList()
         }
-
         return cashItemList
     }
 

@@ -1,5 +1,8 @@
 package com.cashmanagment.utils
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 class Utils {
 
     fun cleanIntToString(counter: Int): String {
@@ -32,6 +35,13 @@ class Utils {
 
     fun getTags(): ArrayList<String>{
         return  arrayListOf("Necessary", "Saving", "Investment", "Formation", "Fun", "Donation")
+    }
+
+    fun getCurrentDate(): String{
+        val pattern = "yyyy-MM-dd"
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern(pattern)
+        return current.format(formatter)
     }
 
 }

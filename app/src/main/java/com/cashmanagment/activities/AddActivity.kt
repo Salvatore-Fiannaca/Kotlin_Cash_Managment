@@ -34,6 +34,7 @@ class AddActivity : AppCompatActivity() {
     }
 
     private fun submit(add: Boolean){
+        val timestamp = Utils().getCurrentDate()
         var amount = binding.inputAmount.text.toString().toInt()
         var tag = ""
         var type = "in"
@@ -44,7 +45,7 @@ class AddActivity : AppCompatActivity() {
             tag = getTagChecked()
         }
 
-        val item = HistoryModel(0, type, tag, amount)
+        val item = HistoryModel(0, timestamp, type, tag, amount)
         val dbHandler = DatabaseHandler(this)
         dbHandler.insertData(item)
         finish()
