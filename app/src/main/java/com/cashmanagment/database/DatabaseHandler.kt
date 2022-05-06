@@ -136,7 +136,7 @@ class DatabaseHandler(context: Context) :
 
     fun readAll():ArrayList<HistoryModel> {
         val cashItemList = ArrayList<HistoryModel>()
-        val query = "SELECT * FROM $TABLE_ACTIONS"
+        val query = "SELECT * FROM $TABLE_ACTIONS ORDER BY $KEY_ID DESC"
         val db = this.readableDatabase
 
         try {
@@ -159,7 +159,6 @@ class DatabaseHandler(context: Context) :
             db.execSQL(query)
             return ArrayList()
         }
-
         return cashItemList
     }
 
