@@ -2,6 +2,7 @@ package com.cashmanagment.adapter
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +51,7 @@ class RecyclerAdapter(private val items: ArrayList<HistoryModel>) : RecyclerView
                         deleteItem(id, amount, ctx)
                         items.remove(items[position])
 
-                        notifyItemChanged(position)
+                        notifyDataSetChanged()
                         dialog.cancel()
                     }
                     .show()
