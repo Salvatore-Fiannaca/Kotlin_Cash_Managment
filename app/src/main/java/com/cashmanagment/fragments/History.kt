@@ -24,6 +24,7 @@ class History : Fragment() {
         super.onCreate(savedInstanceState)
         binding = FragmentHistoryBinding.inflate(layoutInflater)
         refreshValues()
+
     }
 
     override fun onResume() {
